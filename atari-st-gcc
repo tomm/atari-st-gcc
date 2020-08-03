@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ "$1" = "" ] || [ "$1" = "--help" ]; then
+	echo "Usage: atari-st-gcc my_main.c"
+	exit 0
+fi
+NAME=$(echo "$1" | cut -f 1 -d '.')
+m68k-linux-gnu-gcc-8 -I /usr/local/include -Wall -Os -std=gnu11 -S -m68000 $1 -o $NAME.s
+atari-st-gasm -o $NAME.prg $NAME.s 
