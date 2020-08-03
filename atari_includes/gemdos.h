@@ -2,56 +2,59 @@
 #define __GEMDOS_H
 
 /* XBIOS */
-void Supexec (int (*func)())
+static inline void Supexec (int (*func)())
 {
-	asm (
-"	movea.l	4(%a7),%a0\n"
-"	move.l	%a0,-(%sp)\n"
-"	move.w	#$26,-(%sp)\n"
-"	trap	#14\n"
-"	addq.l	#6,%sp\n"
+	asm volatile (R"(
+	move.l	%0,-(%%sp)
+	move.w	#$26,-(%%sp)
+	trap	#14
+	addq.l	#6,%%sp
+    )"
+    ::"a"(func)
 	);
 }
 
 /* GEMDOS */
-void Cconws (const char *poop)
+static inline void Cconws (const char *str)
 {
-	asm (
-"	movea.l	4(%a7),%a0\n"
-"	move.l	%a0,-(%sp)\n"
-"	move.w	#9,-(%sp)\n"
-"	trap	#1\n"
-"	addq.l	#6,%sp\n"
+	asm volatile (R"(
+	move.l	%0,-(%%sp)
+	move.w	#9,-(%%sp)
+	trap	#1
+	addq.l	#6,%%sp
+    )"
+    ::"a"(str)
 	);
 }
 
-void Cconin ()
+static inline void Cconin ()
 {
-	asm (
-"	move.w	#1,-(%sp)\n"
-"	trap	#1\n"
-"	addq.l	#2,%sp\n"
-	);
+	asm volatile (R"(
+	move.w	#1,-(%%sp)
+	trap	#1
+	addq.l	#2,%%sp
+	)"::);
 }
 
-void *Physbase ();
-asm (
-"Physbase:\n"
-"	move.w	#2,-(%sp)\n"
-"	trap	#14\n"
-"	addq.l	#2,%sp\n"
-"	move.l	%d0,%a0\n"
-"	rts\n"
-);
-
-void Term ()
+static inline void *Physbase ()
 {
-	asm (
-"	clr.w	-(%sp)\n"
-"	trap	#1\n"
-	);
+    void *p;
+    asm volatile (R"(
+    	move.w	#2,-(%%sp)
+    	trap	#14
+    	addq.l	#2,%%sp
+    	move.l	%%d0,%0
+    )"
+    :"=a"(p));
+    return p;
 }
 
-
+static inline void Term ()
+{
+	asm volatile (R"(
+	clr.w	-(%%sp)
+	trap	#1
+    )":);
+}
 
 #endif /* __GEMDOS_H */
