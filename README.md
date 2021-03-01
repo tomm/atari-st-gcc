@@ -20,11 +20,11 @@ There are some helpful utilities:
 
 ```
 #include "atari-st/softmath.h"
-#include "atari-st/gemdos.h"
+#include "atari-st/tos.h"
 ```
 
-Softmath allows 32-bit divide/multiply to work on m68k. Gemdos.h wraps some
-basic gemdos calls.
+Softmath allows 32-bit divide/multiply to work on m68k. tos.h wraps some
+basic tos, xbios, bios and gemdos calls.
 
 See [hello_world.c](hello_world.c) for a working example of an Atari ST C
 program.

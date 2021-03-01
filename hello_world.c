@@ -1,5 +1,5 @@
 #include "atari-st/softmath.h"
-#include "atari-st/gemdos.h"
+#include "atari-st/tos.h"
 #include "atari-st/nonstdlib.h"
 
 int main()

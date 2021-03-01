@@ -1,5 +1,5 @@
-#ifndef __GEMDOS_H
-#define __GEMDOS_H
+#ifndef TOS_H
+#define TOS_H
 
 /* XBIOS */
 static inline void Supexec (int (*func)())
@@ -57,4 +57,4 @@ static inline void Term ()
     )":);
 }
 
-#endif /* __GEMDOS_H */
+#endif /* TOS_H */
